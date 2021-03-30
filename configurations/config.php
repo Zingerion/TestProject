@@ -2,10 +2,10 @@
 
 namespace fb\config;
 
-abstract class Config
+abstract class config
 {
     public static $host = 'localhost';
-    public static $database = 'fakebook_db';
+    public static $database = 'comments_db';
     public static $user = 'root';
     public static $password = '';
 }

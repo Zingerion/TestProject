@@ -2,19 +2,32 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-/*
-if (isset($_POST['email']) and isset($_POST['pass'])) {
-    $login = new Login($_POST['email'], $_POST['pass']);
-    $user = new User($login->id);
-}
-*/
+use fb\classes\base;
+use fb\classes\comment;
 
-use fb\classes\Comment;
-
-if($_GET['name'] && $_GET['email'] && $_GET['text']) {
-    $comment = new Comment($_GET['id'], $_GET['email'], $_GET['text']);
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['text'])) {
+    if (isset($_POST['file'])) {
+        $comment = new comment($_POST['name'], $_POST['email'], $_POST['text'], $_POST['file']);
+    }
+    else {
+        $comment = new comment($_POST['name'], $_POST['email'], $_POST['text']);
+    }
     $comment->saveToDB();
+    unset($comment);
+
+    if (!isset($_SESSION)) {
+        session_start();
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $_SESSION['postdata'] = $_POST;
+        unset($_POST);
+        header("Location: ".$_SERVER['PHP_SELF']);
+        exit;
+    }
 }
+
+$bd = new base();
+$comments = $bd->select('*', 'comment', '1');
 
 require_once "../templates/form.php";
-//require_once "../templates/form.php";
