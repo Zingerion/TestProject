@@ -17,7 +17,7 @@
 <body>
 
 <div class="container block">
-    <form action="../controllers/form.php" method="post">
+    <form action="../controllers/form.php" method="post" enctype="multipart/form-data">
         <h2>Написать комментарий</h2>
         <br>
         <div class="row">
@@ -45,8 +45,8 @@
         <div class="row">
             <div class="col">
                 <label for="exampleFormControlFile1">Прикрепить картинку</label>
-                <input type="hidden" name="MAX_FILE_SIZE" value="30000"/>
-                <input name="file" type="file" class="form-control-file" id="exampleFormControlFile1"/>
+                <input type="hidden" name="MAX_FILE_SIZE" value="3000000"/>
+                <input name="picture" type="file" class="form-control-file" id="exampleFormControlFile1"/>
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-primary">Отправить</button>
@@ -63,7 +63,10 @@
             <div class="col col-sm">
                 <p><span>Имя пользователя : </span><span><?php echo $comment["name"]?></span></p>
                 <p><span>Электронная почта : </span><span><?php echo $comment["email"]?></span></p>
-                <img>
+                <?php if ($comment["Img"] != '../usersImg/') { ?>
+                    <img height="320px" width="240px" src="<?php echo $comment["Img"]?>"/>
+                <?php }
+                ?>
             </div>
             <div class="block text-message col">
                 <p>Текст сообщения:</p>
